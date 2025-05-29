@@ -2,6 +2,8 @@
 	"name": "@eggl-js/expo-github-cache",
 	"version": "0.1.1",
 	"license": "MIT",
+	"description": "A Expo build cache using GitHub as a storage backend.",
+	"keywords": ["expo", "cache", "github", "build", "eas"],
 	"main": "build/index.js",
 	"types": "build/index.d.ts",
 	"repository": {
@@ -10,7 +12,8 @@
 	},
 	"files": ["/build"],
 	"publishConfig": {
-		"access": "public"
+		"access": "public",
+		"registry": "https://npm.pkg.github.com"
 	},
 	"scripts": {
 		"lint": "biome check",
