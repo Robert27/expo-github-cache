@@ -32,7 +32,14 @@ async function downloadFileAsync(
 	try {
 		logger.info(`Downloading from URL: ${url}`);
 
-		const isGitHubApiUrl = url.includes("api.github.com");
+		let isGitHubApiUrl = false;
+		try {
+			const parsedUrl = new URL(url);
+			isGitHubApiUrl = parsedUrl.hostname === "api.github.com";
+		} catch {
+			// Invalid URL format, treat as non-GitHub
+			isGitHubApiUrl = false;
+		}
 
 		const headers: Record<string, string> = {
 			Accept: "application/octet-stream",

@@ -109,9 +109,11 @@ jobs:
         with:
           node-version: "18"
           registry-url: "https://registry.npmjs.org"
+      - name: Force registry for scoped npm package
+        run: echo "@eggl-js:registry=https://registry.npmjs.org/" >> ~/.npmrc
 
       - name: Publish to npmjs.org
-        run: npm publish
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -137,6 +139,7 @@ jobs:
         with:
           node-version: "18"
           registry-url: "https://npm.pkg.github.com"
+          scope: "@robert27"
 
       - name: Set scope for GitHub Packages
         run: |
