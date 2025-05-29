@@ -62,7 +62,33 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
 
   release:
-    name: Create Release and Publish to NPM
+    name: Create GitHub Release
+    needs: changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine if prerelease
+        id: prerelease
+        run: |
+          if [[ "${{ github.ref_name }}" == *"-"* ]]; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body: ${{ needs.changelog.outputs.release_body }}
+          prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-npm:
+    name: Publish to NPM
     needs: changelog
     runs-on: ubuntu-latest
     steps:
@@ -78,25 +104,33 @@ jobs:
       - name: Build package
         run: bun run build:prod
 
-      - name: Determine if prerelease
-        id: prerelease
-        run: |
-          if [[ "${{ github.ref_name }}" == *"-"* ]]; then
-            echo "is_prerelease=true" >> $GITHUB_OUTPUT
-            echo "PRERELEASE=true" >> $GITHUB_ENV
-          else
-            echo "is_prerelease=false" >> $GITHUB_OUTPUT
-            echo "PRERELEASE=false" >> $GITHUB_ENV
-          fi
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+      - name: Setup Node.js for npmjs.org
+        uses: actions/setup-node@v4
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          body: ${{ needs.changelog.outputs.release_body }}
-          prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: "18"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Publish to npmjs.org
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-github:
+    name: Publish to GitHub Packages
+    needs: changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build package
+        run: bun run build:prod
 
       - name: Setup Node.js for GitHub Packages
         uses: actions/setup-node@v4
@@ -112,18 +146,3 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node.js for npmjs.org
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Set scope for npmjs.org
-        run: |
-          jq '.name = "@eggl-js/expo-github-cache"' package.json > tmp.json && mv tmp.json package.json
-
-      - name: Publish to npmjs.org
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

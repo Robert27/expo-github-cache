@@ -18,6 +18,8 @@ This integration with Expo's build caching system can save significant time duri
 
 ## Installation
 
+To install the Expo GitHub Cache plugin, you can use a package manager like npm or bun. This plugin is available as an NPM package, making it easy to integrate into your Expo project.
+
 ```bash
 npm install @eggl-js/expo-github-cache --save-dev
 ```
@@ -26,6 +28,13 @@ or
 ```bash
 bun add @eggl-js/expo-github-cache -d
 ```
+
+> [!TIP]
+>
+> If you prefer to use the GitHub NPM registry, you can install the package directly from there:
+> ```bash
+> npm install @robert27/expo-github-cache --registry=https://npm.pkg.github.com
+> ```
 
 ## Configuration
 
