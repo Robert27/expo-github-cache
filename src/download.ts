@@ -56,27 +56,26 @@ async function downloadFileAsync(
 			response.headers.get("content-length") || "0",
 			10,
 		);
-		if (contentLength > 0) {
-			logger.startProgress(contentLength, "Downloading");
 
+		logger.startSpinner("Downloading file");
+
+		if (contentLength > 0) {
 			let receivedBytes = 0;
 			const downloadStream = response.body;
 
 			downloadStream.on("data", (chunk) => {
 				receivedBytes += chunk.length;
-				logger.updateProgress(
-					receivedBytes,
-					`Downloading ${Math.floor(receivedBytes / 1024 / 1024)}MB`,
-				);
+				const downloadedMB = Math.floor(receivedBytes / 1024 / 1024);
+				const totalMB = Math.floor(contentLength / 1024 / 1024);
+				logger.updateSpinner(`Downloading ${downloadedMB}MB / ${totalMB}MB`);
 			});
 
 			await pipeline(downloadStream, fs.createWriteStream(outputPath));
-			logger.stopProgress();
-			logger.success("Download complete");
 		} else {
 			await pipeline(response.body, fs.createWriteStream(outputPath));
-			logger.success("Download complete");
 		}
+
+		logger.succeedSpinner("Download complete");
 	} catch (error: any) {
 		if (await fs.pathExists(outputPath)) {
 			await fs.remove(outputPath);

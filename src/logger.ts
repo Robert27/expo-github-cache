@@ -1,27 +1,20 @@
 /**
  * Logger for Expo GitHub Cache
  *
- * @fileOverview Provides a modern logging interface with spinners, progress bars, and colored output
+ * @fileOverview Provides a modern logging interface with spinners and colored output
  * @module logger
  */
 import chalk from "chalk";
-import * as cliProgress from "cli-progress";
 import figures from "figures";
 import logSymbols from "log-symbols";
 import ora from "ora";
 
 /**
  * A modern logger for Expo GitHub Cache
- * Provides beautiful console output with spinners, progress bars and icons
+ * Provides beautiful console output with spinners and icons
  */
 export class Logger {
 	private spinner = ora();
-	private progressBar = new cliProgress.SingleBar({
-		format: `${chalk.cyan("{bar}")} ${chalk.cyan("{percentage}%")} | {value}/{total} | {status}`,
-		barCompleteChar: "\u2588",
-		barIncompleteChar: "\u2591",
-		hideCursor: true,
-	});
 
 	/**
 	 * Log an informational message
@@ -82,31 +75,6 @@ export class Logger {
 	 */
 	failSpinner(message: string): void {
 		this.spinner.fail(chalk.red(message));
-	}
-
-	/**
-	 * Start a progress bar with the given total and initial status
-	 */
-	startProgress(total: number, status = "Starting"): void {
-		this.progressBar.start(total, 0, { status });
-	}
-
-	/**
-	 * Update the progress bar
-	 */
-	updateProgress(value: number, status?: string): void {
-		if (status) {
-			this.progressBar.update(value, { status });
-		} else {
-			this.progressBar.update(value);
-		}
-	}
-
-	/**
-	 * Stop the progress bar
-	 */
-	stopProgress(): void {
-		this.progressBar.stop();
 	}
 }
 

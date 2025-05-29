@@ -111,14 +111,12 @@ const fetchCachedBuild = async (
 			logger.error("Failed to download or extract the app", downloadError);
 		}
 	} catch (error) {
-		// Just mark the spinner as failed without additional message
-		logger.failSpinner("");
 		if (error instanceof Error && error.message.includes("No release found")) {
 			// This is an expected case when no cache exists, don't show stacktrace
-			logger.warn("No cached builds available for this fingerprint");
+			logger.failSpinner("No cached builds available for this fingerprint");
 		} else {
 			// For unexpected errors, show more details
-			logger.warn(
+			logger.failSpinner(
 				`Cache retrieval failed: ${error instanceof Error ? error.message : String(error)}`,
 			);
 		}

@@ -96,7 +96,7 @@ When you run a build command, the plugin:
 
 Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
 
-### When to use this vs. the base example
+## When to use this vs. the base example
 
 This plugin extends the functionality of Expo's [basic GitHub cache provider example](https://github.com/expo/examples/tree/master/with-github-remote-build-cache-provider). Here's when to use each:
 
