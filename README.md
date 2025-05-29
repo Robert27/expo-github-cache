@@ -19,12 +19,12 @@ This integration with Expo's build caching system can save significant time duri
 ## Installation
 
 ```bash
-npm install @eggl-js/expo-github-cache
+npm install @eggl-js/expo-github-cache --save-dev
 ```
 or
 
 ```bash
-bun add @eggl-js/expo-github-cache
+bun add @eggl-js/expo-github-cache -d
 ```
 
 ## Configuration

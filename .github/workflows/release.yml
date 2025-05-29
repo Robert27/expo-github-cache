@@ -1,0 +1,107 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  ci:
+    name: CI - Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run TypeScript checks
+        run: bun tsc --noEmit
+
+      - name: Run Biome check
+        run: bun biome ci .
+
+      - name: Run tests
+        run: bun test
+
+  changelog:
+    name: Generate changelog
+    needs: ci
+    runs-on: ubuntu-latest
+    outputs:
+      release_body: ${{ steps.git-cliff.outputs.content }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Find latest stable tag
+        id: latest_stable_tag
+        run: |
+          LATEST_TAG=$(git tag --sort=-creatordate | grep -v "-" | head -n1)
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+      - name: Generate changelog
+        id: git-cliff
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: ${{ env.PRERELEASE == 'true' && '--latest --strip all' || format('{0}..HEAD --strip all', env.LATEST_TAG) }}
+        env:
+          OUTPUT: CHANGES.md
+          GITHUB_REPO: ${{ github.repository }}
+
+  release:
+    name: Create Release and Publish to NPM
+    needs: changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build package
+        run: bun run build:prod
+
+      - name: Determine if prerelease
+        id: prerelease
+        run: |
+          if [[ "${{ github.ref_name }}" == *"-"* ]]; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+            echo "PRERELEASE=true" >> $GITHUB_ENV
+          else
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+            echo "PRERELEASE=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create GitHub Release
+        run: |
+          if [[ "${{ steps.prerelease.outputs.is_prerelease }}" == "true" ]]; then
+            gh release create ${{ github.ref_name }} --title "${{ github.ref_name }}" --notes '${{ needs.changelog.outputs.release_body }}' --prerelease
+          else
+            gh release create ${{ github.ref_name }} --title "${{ github.ref_name }}" --notes '${{ needs.changelog.outputs.release_body }}'
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js for NPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
