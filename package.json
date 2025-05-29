@@ -1,0 +1,60 @@
+{
+	"name": "@eggl-js/expo-github-cache",
+	"version": "0.1.0",
+	"license": "MIT",
+	"main": "build/index.js",
+	"types": "build/index.d.ts",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/robert27/expo-github-cache.git"
+	},
+	"files": ["/build"],
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"lint": "biome check",
+		"fmt": "biome check --fix",
+		"fmt:unsafe": "biome check --fix --unsafe",
+		"clean": "rm -rf build",
+		"build": "npm run clean && tsc --project tsconfig.build.json",
+		"build:prod": "npm run clean && tsc --project tsconfig.build.json --sourceMap false --declarationMap false",
+		"build-allow-unused": "npm run clean && tsc --project tsconfig.allowUnused.json",
+		"test": "bun test",
+		"test:watch": "bun test --watch",
+		"test:coverage": "bun test --coverage",
+		"prepublishOnly": "npm run build:prod"
+	},
+	"dependencies": {
+		"@babel/code-frame": "7.23.5",
+		"@expo/config": "11.0.6",
+		"@expo/spawn-async": "^1.7.2",
+		"@octokit/rest": "^22.0.0",
+		"chalk": "4.1.2",
+		"cli-progress": "^3.12.0",
+		"env-paths": "^3.0.0",
+		"expo-module-scripts": "^4.1.7",
+		"figures": "^6.1.0",
+		"fs-extra": "11.2.0",
+		"log-symbols": "7.0.1",
+		"node-fetch": "^3.3.2",
+		"octokit": "5.0.3",
+		"ora": "^8.2.0",
+		"tar": "^7.4.3",
+		"tslib": "2.4.1",
+		"uuidv7": "^1.0.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@tsconfig/node18": "18.2.4",
+		"@types/bun": "latest",
+		"@types/cli-progress": "^3.11.6",
+		"@types/fs-extra": "11.0.4"
+	},
+	"peerDependencies": {
+		"typescript": "^5.8.3"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	}
+}
