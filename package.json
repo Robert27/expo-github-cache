@@ -12,8 +12,7 @@
 	},
 	"files": ["/build"],
 	"publishConfig": {
-		"access": "public",
-		"registry": "https://npm.pkg.github.com"
+		"access": "public"
 	},
 	"scripts": {
 		"lint": "biome check",
