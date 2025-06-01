@@ -54,13 +54,15 @@ Add the build cache provider to your `app.json` or `app.config.js`:
 {
   "expo": {
     "experiments": {
-      "buildCacheProvider": {
-        "plugin": "@eggl-js/expo-github-cache",
-        "options": {
-          "owner": "your-github-username",
-          "repo": "your-repo-name"
+       "remoteBuildCache": {
+            "provider": {
+                "plugin": "@eggl-js/expo-github-cache",
+                "options": {
+                    "owner": "demo-org",
+                    "repo": "demo-repo",
+                }
+            }
         }
-      }
     }
   }
 }
