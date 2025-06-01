@@ -45,18 +45,12 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      - name: Find latest stable tag
-        id: latest_stable_tag
-        run: |
-          LATEST_TAG=$(git tag --sort=-creatordate | grep -v "-" | head -n1)
-          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
-
       - name: Generate changelog
         id: git-cliff
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
-          args: ${{ format('{0}..HEAD --strip all', env.LATEST_TAG) }}
+          args: "--latest --strip all"
         env:
           OUTPUT: CHANGES.md
           GITHUB_REPO: ${{ github.repository }}
