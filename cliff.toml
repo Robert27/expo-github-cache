@@ -85,7 +85,7 @@ footer = """
 trim = true
 # postprocessors
 postprocessors = [
-  { pattern = '<REPO>', replace = "https://github.com/neuland-ingolstadt/neuland.app-native" }, # replace repository URL
+  { pattern = '<REPO>', replace = "https://github.com/robert27/expo-github-cache" }
 ]
 # render body even when there are no releases to process
 # render_always = true
