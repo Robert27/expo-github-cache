@@ -7,9 +7,9 @@
 
 import * as path from "node:path";
 import type {
-	RemoteBuildCachePlugin,
-	ResolveRemoteBuildCacheProps,
-	UploadRemoteBuildCacheProps,
+	BuildCacheProviderPlugin,
+	ResolveBuildCacheProps,
+	UploadBuildCacheProps,
 } from "@expo/config";
 import * as fs from "fs-extra";
 import { downloadAndMaybeExtractAppAsync } from "./download";
@@ -21,7 +21,7 @@ import { getBuildCacheDirectory, isDevClientBuild } from "./utils";
 /**
  * Resolves and retrieves a cached build from GitHub if available
  *
- * @param {ResolveRemoteBuildCacheProps} props - Build context properties from Expo
+ * @param {ResolveBuildCacheProps} props - Build context properties from Expo
  * @param {object} githubConfig - GitHub repository configuration
  * @param {string} githubConfig.owner - Repository owner/organization name
  * @param {string} githubConfig.repo - Repository name
@@ -33,7 +33,7 @@ const fetchCachedBuild = async (
 		platform,
 		fingerprintHash,
 		runOptions,
-	}: ResolveRemoteBuildCacheProps,
+	}: ResolveBuildCacheProps,
 	{ owner, repo }: { owner: string; repo: string },
 ): Promise<string | null> => {
 	if (!runOptions.buildCache) {
@@ -141,7 +141,7 @@ const publishBuildCache = async (
 		runOptions,
 		buildPath,
 		platform,
-	}: UploadRemoteBuildCacheProps,
+	}: UploadBuildCacheProps,
 	{ owner, repo }: { owner: string; repo: string },
 ): Promise<string | null> => {
 	logger.startSpinner("Uploading build to Github Releases");
@@ -213,7 +213,7 @@ function getCachedAppPath({
 	platform,
 	projectRoot,
 	runOptions,
-}: ResolveRemoteBuildCacheProps): string {
+}: ResolveBuildCacheProps): string {
 	return path.join(
 		getBuildCacheDirectory(),
 		`${getTagName({ fingerprintHash, projectRoot, runOptions, platform })}.${platform === "ios" ? "app" : "apk"}`,
@@ -223,4 +223,4 @@ function getCachedAppPath({
 export default {
 	resolveRemoteBuildCache: fetchCachedBuild,
 	uploadRemoteBuildCache: publishBuildCache,
-} satisfies RemoteBuildCachePlugin;
+} satisfies BuildCacheProviderPlugin;
