@@ -24,7 +24,10 @@ const { temp: APP_TEMP_DIRECTORY } = envPaths("github-build-cache-provider");
 export function isDevClientBuild({
 	runOptions,
 	projectRoot,
-}: { runOptions: RunOptions; projectRoot: string }): boolean {
+}: {
+	runOptions: RunOptions;
+	projectRoot: string;
+}): boolean {
 	if (!detectDevClientDependency(projectRoot)) {
 		return false;
 	}

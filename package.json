@@ -1,16 +1,24 @@
 {
 	"name": "@eggl-js/expo-github-cache",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"license": "MIT",
 	"description": "A Expo build cache using GitHub as a storage backend.",
-	"keywords": ["expo", "cache", "github", "build", "eas"],
+	"keywords": [
+		"expo",
+		"cache",
+		"github",
+		"build",
+		"eas"
+	],
 	"main": "build/index.js",
 	"types": "build/index.d.ts",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/robert27/expo-github-cache.git"
 	},
-	"files": ["/build"],
+	"files": [
+		"/build"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
@@ -29,24 +37,24 @@
 	},
 	"dependencies": {
 		"@babel/code-frame": "7.23.5",
-		"@expo/config": "11.0.6",
+		"@expo/config": "11.0.10",
 		"@expo/spawn-async": "^1.7.2",
 		"@octokit/rest": "^22.0.0",
 		"chalk": "4.1.2",
 		"env-paths": "^3.0.0",
 		"expo-module-scripts": "^4.1.7",
 		"figures": "^6.1.0",
-		"fs-extra": "11.2.0",
+		"fs-extra": "11.3.0",
 		"log-symbols": "7.0.1",
 		"node-fetch": "^3.3.2",
 		"octokit": "5.0.3",
 		"ora": "^8.2.0",
 		"tar": "^7.4.3",
-		"tslib": "2.4.1",
+		"tslib": "2.8.1",
 		"uuidv7": "^1.0.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
+		"@biomejs/biome": "2.0.4",
 		"@tsconfig/node18": "18.2.4",
 		"@types/bun": "latest",
 		"@types/cli-progress": "^3.11.6",

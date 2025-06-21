@@ -6,9 +6,13 @@
  */
 
 import * as spawnAsyncModule from "@expo/spawn-async";
+
 const spawnAsync = spawnAsyncModule.default || spawnAsyncModule;
+
 import * as globModule from "fast-glob";
+
 const glob = globModule.default || globModule;
+
 import * as path from "node:path";
 import { pipeline } from "node:stream/promises";
 import * as fs from "fs-extra";
