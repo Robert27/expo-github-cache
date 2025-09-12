@@ -13,7 +13,7 @@ describe("Build Cache Edge Cases", () => {
 			},
 		};
 
-		const result = await buildCachePlugin.resolveRemoteBuildCache(props, {
+		const result = await buildCachePlugin.resolveBuildCache(props, {
 			owner: "owner",
 			repo: "repo",
 		});
@@ -31,7 +31,7 @@ describe("Build Cache Edge Cases", () => {
 			},
 		};
 
-		const result = await buildCachePlugin.resolveRemoteBuildCache(props, {
+		const result = await buildCachePlugin.resolveBuildCache(props, {
 			owner: "owner",
 			repo: "repo",
 		});
@@ -47,7 +47,7 @@ describe("Build Cache Edge Cases", () => {
 			runOptions: {} as any, // Empty runOptions
 		};
 
-		const result = await buildCachePlugin.resolveRemoteBuildCache(props, {
+		const result = await buildCachePlugin.resolveBuildCache(props, {
 			owner: "owner",
 			repo: "repo",
 		});
@@ -67,14 +67,14 @@ describe("Build Cache Edge Cases", () => {
 		};
 
 		// Test with empty owner
-		const result1 = await buildCachePlugin.resolveRemoteBuildCache(props, {
+		const result1 = await buildCachePlugin.resolveBuildCache(props, {
 			owner: "",
 			repo: "repo",
 		});
 		expect(result1).toBeNull();
 
 		// Test with empty repo
-		const result2 = await buildCachePlugin.resolveRemoteBuildCache(props, {
+		const result2 = await buildCachePlugin.resolveBuildCache(props, {
 			owner: "owner",
 			repo: "",
 		});
@@ -96,7 +96,7 @@ describe("Build Cache Edge Cases", () => {
 		const originalToken = process.env.GITHUB_TOKEN;
 		delete process.env.GITHUB_TOKEN;
 
-		const result = await buildCachePlugin.uploadRemoteBuildCache(props, {
+		const result = await buildCachePlugin.uploadBuildCache(props, {
 			owner: "owner",
 			repo: "repo",
 		});

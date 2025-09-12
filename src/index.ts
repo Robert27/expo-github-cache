@@ -221,6 +221,6 @@ function getCachedAppPath({
 }
 
 export default {
-	resolveRemoteBuildCache: fetchCachedBuild,
-	uploadRemoteBuildCache: publishBuildCache,
+	resolveBuildCache: fetchCachedBuild,
+	uploadBuildCache: publishBuildCache,
 } satisfies BuildCacheProviderPlugin;

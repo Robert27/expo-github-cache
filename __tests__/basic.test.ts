@@ -19,7 +19,7 @@ describe("GitHub Cache Plugin Basic Tests", () => {
 		// When buildCache is false, the function should return null immediately
 		const props = createDummyProps("ios");
 
-		const result = await buildCachePlugin.resolveRemoteBuildCache(props, {
+		const result = await buildCachePlugin.resolveBuildCache(props, {
 			owner: "owner",
 			repo: "repo",
 		});
@@ -35,7 +35,7 @@ describe("GitHub Cache Plugin Basic Tests", () => {
 		};
 
 		// Since GITHUB_TOKEN is missing, this should return null but still generate the tag name internally
-		const result = await buildCachePlugin.uploadRemoteBuildCache(uploadProps, {
+		const result = await buildCachePlugin.uploadBuildCache(uploadProps, {
 			owner: "owner",
 			repo: "repo",
 		});
@@ -51,7 +51,7 @@ describe("GitHub Cache Plugin Basic Tests", () => {
 		};
 
 		// Since GITHUB_TOKEN is missing, this should return null but still generate the tag name internally
-		const result = await buildCachePlugin.uploadRemoteBuildCache(uploadProps, {
+		const result = await buildCachePlugin.uploadBuildCache(uploadProps, {
 			owner: "owner",
 			repo: "repo",
 		});

@@ -4,7 +4,7 @@ A remote build cache provider plugin for Expo that uses GitHub Releases to store
 
 ## What is this?
 
-This library implements Expo's [remote build cache provider interface](https://docs.expo.dev/guides/cache-builds-remotely/) using GitHub Releases as the storage backend. Build caching is an experimental Expo feature that speeds up `npx expo run:ios` and `npx expo run:android` commands by caching builds remotely based on your project's [fingerprint](https://docs.expo.dev/versions/latest/sdk/fingerprint/).
+This library implements Expo's [remote build cache provider interface](https://docs.expo.dev/guides/cache-builds-remotely/) using GitHub Releases as the storage backend. Build caching is an Expo feature that speeds up `npx expo run:ios` and `npx expo run:android` commands by caching builds remotely based on your project's [fingerprint](https://docs.expo.dev/versions/latest/sdk/fingerprint/).
 
 ### How it works with Expo's caching system
 
@@ -53,15 +53,11 @@ Add the build cache provider to your `app.json` or `app.config.js`:
 ```json
 {
   "expo": {
-    "experiments": {
-       "remoteBuildCache": {
-            "provider": {
-                "plugin": "@eggl-js/expo-github-cache",
-                "options": {
-                    "owner": "demo-org",
-                    "repo": "demo-repo",
-                }
-            }
+    "buildCacheProvider": {
+        "plugin": "@eggl-js/expo-github-cache",
+        "options": {
+            "owner": "demo-org",
+            "repo": "demo-repo",
         }
     }
   }

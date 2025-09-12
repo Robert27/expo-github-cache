@@ -29,12 +29,12 @@ describe("GitHub Cache Plugin - Environment Variable Tests", () => {
 		process.env = { ...originalEnv };
 	});
 
-	describe("resolveRemoteBuildCache", () => {
+	describe("resolveBuildCache", () => {
 		test("should return null when GITHUB_TOKEN is missing", async () => {
 			// Ensure GITHUB_TOKEN is not set
 			delete process.env.GITHUB_TOKEN;
 
-			const result = await buildCachePlugin.resolveRemoteBuildCache(
+			const result = await buildCachePlugin.resolveBuildCache(
 				createDummyProps("ios"),
 				{ owner: "owner", repo: "repo" },
 			);
@@ -48,7 +48,7 @@ describe("GitHub Cache Plugin - Environment Variable Tests", () => {
 			const props = createDummyProps("ios");
 			props.runOptions.buildCache = false;
 
-			const result = await buildCachePlugin.resolveRemoteBuildCache(props, {
+			const result = await buildCachePlugin.resolveBuildCache(props, {
 				owner: "owner",
 				repo: "repo",
 			});
@@ -67,10 +67,10 @@ describe("GitHub Cache Plugin - Environment Variable Tests", () => {
 				buildPath: "/fake/build/path/app.zip",
 			};
 
-			const result = await buildCachePlugin.uploadRemoteBuildCache(
-				uploadProps,
-				{ owner: "owner", repo: "repo" },
-			);
+			const result = await buildCachePlugin.uploadBuildCache(uploadProps, {
+				owner: "owner",
+				repo: "repo",
+			});
 
 			expect(result).toBeNull();
 		});
@@ -82,7 +82,7 @@ describe("GitHub Cache Plugin - Environment Variable Tests", () => {
 			const props = createDummyProps("ios");
 			props.runOptions.buildCache = false; // Disable to avoid API calls
 
-			const result = await buildCachePlugin.resolveRemoteBuildCache(props, {
+			const result = await buildCachePlugin.resolveBuildCache(props, {
 				owner: "owner",
 				repo: "repo",
 			});
@@ -95,7 +95,7 @@ describe("GitHub Cache Plugin - Environment Variable Tests", () => {
 			const props = createDummyProps("android");
 			props.runOptions.buildCache = false; // Disable to avoid API calls
 
-			const result = await buildCachePlugin.resolveRemoteBuildCache(props, {
+			const result = await buildCachePlugin.resolveBuildCache(props, {
 				owner: "owner",
 				repo: "repo",
 			});
