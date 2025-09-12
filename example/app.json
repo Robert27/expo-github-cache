@@ -36,18 +36,17 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-font"
     ],
     "experiments": {
-      "typedRoutes": true,
-      "remoteBuildCache": {
-        "provider": {
-          "plugin": "@eggl-js/expo-github-cache",
-          "options": {
-            "owner": "demo-org",
-            "repo": "demo-repo"
-          }
-        }
+      "typedRoutes": true
+    },
+    "buildCacheProvider": {
+      "plugin": "@eggl-js/expo-github-cache",
+      "options": {
+        "owner": "demo-org",
+        "repo": "demo-repo"
       }
     }
   }
