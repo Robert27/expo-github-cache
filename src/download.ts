@@ -9,10 +9,6 @@ import * as spawnAsyncModule from "@expo/spawn-async";
 
 const spawnAsync = spawnAsyncModule.default || spawnAsyncModule;
 
-import * as globModule from "fast-glob";
-
-const glob = globModule.default || globModule;
-
 import * as path from "node:path";
 import { pipeline } from "node:stream/promises";
 import * as fs from "fs-extra";
@@ -174,15 +170,50 @@ export async function extractAppFromLocalArchiveAsync(
 	);
 }
 
+/**
+ * Recursively finds files with a specific extension
+ *
+ * @param {string} dir - Directory to search in
+ * @param {string} extension - File extension to search for
+ * @returns {Promise<string[]>} - Array of relative file paths
+ */
+async function findFilesByExtension(
+	dir: string,
+	extension: string,
+): Promise<string[]> {
+	const results: string[] = [];
+
+	async function searchRecursively(
+		currentDir: string,
+		relativePath = "",
+	): Promise<void> {
+		const entries = await fs.readdir(currentDir, { withFileTypes: true });
+
+		for (const entry of entries) {
+			const fullPath = path.join(currentDir, entry.name);
+			const relPath = path.join(relativePath, entry.name);
+
+			if (entry.isDirectory()) {
+				await searchRecursively(fullPath, relPath);
+			} else if (entry.isFile() && fullPath.endsWith(`.${extension}`)) {
+				results.push(relPath);
+			}
+		}
+	}
+
+	await searchRecursively(dir);
+	return results;
+}
+
 async function getAppPathAsync(
 	outputDir: string,
 	applicationExtension: string,
 ): Promise<string> {
 	logger.startSpinner(`Locating ${applicationExtension} file`);
-	const appFilePaths = await glob(`./**/*.${applicationExtension}`, {
-		cwd: outputDir,
-		onlyFiles: false,
-	});
+	const appFilePaths = await findFilesByExtension(
+		outputDir,
+		applicationExtension,
+	);
 	if (appFilePaths.length === 0) {
 		logger.failSpinner("Search failed");
 		throw Error("Did not find any installable apps inside tarball.");
