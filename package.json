@@ -1,6 +1,6 @@
 {
 	"name": "@eggl-js/expo-github-cache",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"license": "MIT",
 	"description": "A Expo build cache using GitHub as a storage backend.",
 	"keywords": [
