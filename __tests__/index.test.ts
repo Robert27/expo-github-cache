@@ -1,15 +1,20 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import * as path from "node:path";
 import type { ResolveRemoteBuildCacheProps } from "@expo/config";
 import buildCachePlugin from "../src/index";
 
 // Preserve original environment
 const originalEnv = { ...process.env };
 
+// Real project root so getPackageJson (via isDevClientBuild → getTagName) does not throw.
+// Tests must not rely on mock.module("@expo/config") from other files — file load order varies.
+const testProjectRoot = path.join(import.meta.dir, "..");
+
 // Create dummy build props
 const createDummyProps = (
 	platform: "ios" | "android",
 ): ResolveRemoteBuildCacheProps => ({
-	projectRoot: "/fake/project",
+	projectRoot: testProjectRoot,
 	platform,
 	fingerprintHash: "1234567890abcdef",
 	runOptions: {
