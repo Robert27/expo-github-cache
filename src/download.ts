@@ -267,7 +267,9 @@ async function getAppPathAsync(
 		throw Error("Did not find any installable apps inside tarball.");
 	}
 	logger.succeedSpinner(
-		isIosAppBundle ? "Found iOS .app bundle" : `Found ${applicationExtension} file`,
+		isIosAppBundle
+			? "Found iOS .app bundle"
+			: `Found ${applicationExtension} file`,
 	);
 	return path.join(outputDir, appFilePaths[0]);
 }
