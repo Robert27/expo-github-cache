@@ -171,7 +171,51 @@ export async function extractAppFromLocalArchiveAsync(
 }
 
 /**
- * Recursively finds files with a specific extension
+ * Recursively finds iOS application bundles (directories named *.app).
+ * Does not descend into a matched bundle so nested content is ignored.
+ *
+ * @param {string} dir - Directory to search in
+ * @returns {Promise<string[]>} - Relative paths, shallowest bundles first, then lexicographic
+ */
+async function findIosAppBundleRelativePaths(dir: string): Promise<string[]> {
+	const results: string[] = [];
+
+	async function walk(currentDir: string, relativePath = ""): Promise<void> {
+		const entries = await fs.readdir(currentDir, { withFileTypes: true });
+
+		for (const entry of entries) {
+			if (!entry.isDirectory()) {
+				continue;
+			}
+
+			const fullPath = path.join(currentDir, entry.name);
+			const relPath = path.join(relativePath, entry.name);
+
+			if (entry.name.endsWith(".app")) {
+				results.push(relPath);
+				continue;
+			}
+
+			await walk(fullPath, relPath);
+		}
+	}
+
+	await walk(dir);
+
+	results.sort((a, b) => {
+		const depthA = a.split(path.sep).length;
+		const depthB = b.split(path.sep).length;
+		if (depthA !== depthB) {
+			return depthA - depthB;
+		}
+		return a.localeCompare(b);
+	});
+
+	return results;
+}
+
+/**
+ * Recursively finds files with a specific extension (regular files only)
  *
  * @param {string} dir - Directory to search in
  * @param {string} extension - File extension to search for
@@ -209,16 +253,22 @@ async function getAppPathAsync(
 	outputDir: string,
 	applicationExtension: string,
 ): Promise<string> {
-	logger.startSpinner(`Locating ${applicationExtension} file`);
-	const appFilePaths = await findFilesByExtension(
-		outputDir,
-		applicationExtension,
+	const isIosAppBundle = applicationExtension === "app";
+	logger.startSpinner(
+		isIosAppBundle
+			? "Locating iOS .app bundle"
+			: `Locating ${applicationExtension} file`,
 	);
+	const appFilePaths = isIosAppBundle
+		? await findIosAppBundleRelativePaths(outputDir)
+		: await findFilesByExtension(outputDir, applicationExtension);
 	if (appFilePaths.length === 0) {
 		logger.failSpinner("Search failed");
 		throw Error("Did not find any installable apps inside tarball.");
 	}
-	logger.succeedSpinner(`Found ${applicationExtension} file`);
+	logger.succeedSpinner(
+		isIosAppBundle ? "Found iOS .app bundle" : `Found ${applicationExtension} file`,
+	);
 	return path.join(outputDir, appFilePaths[0]);
 }
 
