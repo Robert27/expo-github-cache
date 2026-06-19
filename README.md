@@ -38,12 +38,20 @@ bun add @eggl-js/expo-github-cache -d
 
 ## Configuration
 
-### 1. Set up GitHub Token
+### 1. Set up GitHub authentication
 
-Create a GitHub Personal Access Token with `repo` permissions and set it as an environment variable:
+Provide a GitHub token using any of these options (checked in order):
+
+1. **`GITHUB_TOKEN`** environment variable
+2. **`GH_TOKEN`** environment variable
+3. **`gh auth login`** — uses your local GitHub CLI session automatically
 
 ```bash
+# Option A: environment variable
 export GITHUB_TOKEN=your_github_token_here
+
+# Option B: GitHub CLI (no env var needed after login)
+gh auth login
 ```
 
 ### 2. Configure your Expo project
@@ -90,14 +98,17 @@ When you run a build command, the plugin:
 
 - Node.js 18 or higher
 - GitHub repository with release permissions
-- GitHub Personal Access Token with `repo` scope
+- GitHub authentication via `GITHUB_TOKEN`, `GH_TOKEN`, or `gh auth login`
 - Expo project with fingerprinting enabled
 
 ## Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `GITHUB_TOKEN` | Yes | GitHub Personal Access Token with repo permissions |
+| `GITHUB_TOKEN` | No* | GitHub Personal Access Token with repo permissions |
+| `GH_TOKEN` | No* | Alternative token env var (same permissions as above) |
+
+\* At least one auth method is required: `GITHUB_TOKEN`, `GH_TOKEN`, or an authenticated `gh` CLI session.
 
 ## Contributing
 

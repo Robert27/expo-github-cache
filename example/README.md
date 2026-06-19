@@ -26,10 +26,14 @@ The app.json defines the configuration for the Expo GitHub Cache plugin. It spec
 }
 ```
 
-Also make sure to set the `GITHUB_TOKEN` environment variable with your GitHub Personal Access Token. This token should have the necessary permissions to read and write to the specified repository.
+Also provide GitHub authentication using one of:
+
+- `GITHUB_TOKEN` or `GH_TOKEN` environment variable
+- `gh auth login` (uses your local GitHub CLI session)
 
 ```bash
 export GITHUB_TOKEN=your_github_token_here
+# or: gh auth login
 ```
 
 Now start the Expo project using the following command, as the build cache will be automatically used during the build process:

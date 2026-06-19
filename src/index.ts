@@ -14,6 +14,7 @@ import type {
 import * as fs from "fs-extra";
 import { downloadAndMaybeExtractAppAsync } from "./download";
 import { createReleaseAndUploadAsset, fetchReleaseAssetsByTag } from "./github";
+import { getGitHubToken } from "./github-auth";
 import { logger } from "./logger";
 import type { RunOptions } from "./types";
 import { getBuildCacheDirectory, isDevClientBuild } from "./utils";
@@ -64,10 +65,12 @@ const fetchCachedBuild = async (
 			runOptions,
 			platform,
 		});
-		const githubToken = process.env.GITHUB_TOKEN;
+		const githubToken = await getGitHubToken();
 		if (!githubToken) {
 			logger.failSpinner("GitHub token not found");
-			logger.error("Missing GITHUB_TOKEN environment variable");
+			logger.error(
+				"Missing GitHub token (set GITHUB_TOKEN or GH_TOKEN, or run `gh auth login`)",
+			);
 			return null;
 		}
 
@@ -153,10 +156,12 @@ const publishBuildCache = async (
 			runOptions,
 			platform,
 		});
-		const githubToken = process.env.GITHUB_TOKEN;
+		const githubToken = await getGitHubToken();
 		if (!githubToken) {
 			logger.failSpinner("GitHub token not found");
-			logger.error("Missing GITHUB_TOKEN environment variable");
+			logger.error(
+				"Missing GitHub token (set GITHUB_TOKEN or GH_TOKEN, or run `gh auth login`)",
+			);
 			return null;
 		}
 

@@ -15,6 +15,7 @@ import * as fs from "fs-extra";
 import fetch from "node-fetch";
 import { extract } from "tar";
 import { uuidv7 } from "uuidv7";
+import { getGitHubToken } from "./github-auth";
 import { logger } from "./logger";
 import { getTemporaryDirectory } from "./utils";
 
@@ -45,10 +46,11 @@ async function downloadFileAsync(
 			Accept: "application/octet-stream",
 		};
 
-		if (process.env.GITHUB_TOKEN) {
+		const githubToken = await getGitHubToken();
+		if (githubToken) {
 			headers.Authorization = isGitHubApiUrl
-				? `token ${process.env.GITHUB_TOKEN}`
-				: `Bearer ${process.env.GITHUB_TOKEN}`;
+				? `token ${githubToken}`
+				: `Bearer ${githubToken}`;
 		}
 
 		const response = await fetch(url, { headers });

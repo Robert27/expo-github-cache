@@ -92,9 +92,11 @@ describe("Build Cache Edge Cases", () => {
 			buildPath: "", // Empty build path
 		};
 
-		// Remove GITHUB_TOKEN to avoid actual API calls
+		// Remove GitHub tokens to avoid actual API calls
 		const originalToken = process.env.GITHUB_TOKEN;
+		const originalGhToken = process.env.GH_TOKEN;
 		delete process.env.GITHUB_TOKEN;
+		delete process.env.GH_TOKEN;
 
 		const result = await buildCachePlugin.uploadBuildCache(props, {
 			owner: "owner",
@@ -103,9 +105,12 @@ describe("Build Cache Edge Cases", () => {
 
 		expect(result).toBeNull();
 
-		// Restore token if it existed
+		// Restore tokens if they existed
 		if (originalToken) {
 			process.env.GITHUB_TOKEN = originalToken;
+		}
+		if (originalGhToken) {
+			process.env.GH_TOKEN = originalGhToken;
 		}
 	});
 });

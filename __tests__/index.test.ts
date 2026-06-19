@@ -27,6 +27,7 @@ describe("GitHub Cache Plugin - Environment Variable Tests", () => {
 		// Reset environment variables before each test
 		process.env = { ...originalEnv };
 		delete process.env.GITHUB_TOKEN;
+		delete process.env.GH_TOKEN;
 	});
 
 	afterEach(() => {
@@ -35,9 +36,10 @@ describe("GitHub Cache Plugin - Environment Variable Tests", () => {
 	});
 
 	describe("resolveBuildCache", () => {
-		test("should return null when GITHUB_TOKEN is missing", async () => {
-			// Ensure GITHUB_TOKEN is not set
+		test("should return null when GitHub token is missing", async () => {
+			// Ensure no token env vars are set
 			delete process.env.GITHUB_TOKEN;
+			delete process.env.GH_TOKEN;
 
 			const result = await buildCachePlugin.resolveBuildCache(
 				createDummyProps("ios"),
@@ -63,9 +65,10 @@ describe("GitHub Cache Plugin - Environment Variable Tests", () => {
 	});
 
 	describe("uploadRemoteBuildCache", () => {
-		test("should return null when GITHUB_TOKEN is missing", async () => {
-			// Ensure GITHUB_TOKEN is not set
+		test("should return null when GitHub token is missing", async () => {
+			// Ensure no token env vars are set
 			delete process.env.GITHUB_TOKEN;
+			delete process.env.GH_TOKEN;
 
 			const uploadProps = {
 				...createDummyProps("ios"),
