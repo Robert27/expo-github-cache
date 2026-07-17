@@ -4,7 +4,8 @@
 		"config:recommended",
 		":semanticCommits",
 		":semanticCommitTypeAll(chore)",
-		"helpers:pinGitHubActionDigests"
+		"helpers:pinGitHubActionDigests",
+		"customManagers:biomeVersions"
 	],
 	"timezone": "Europe/Berlin",
 	"labels": ["dependencies"],
