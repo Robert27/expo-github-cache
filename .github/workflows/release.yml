@@ -99,7 +99,7 @@ jobs:
         run: bun run build:prod
 
       - name: Setup Node.js for npmjs.org
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
@@ -129,7 +129,7 @@ jobs:
         run: bun run build:prod
 
       - name: Setup Node.js for GitHub Packages
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: "20"
           registry-url: "https://npm.pkg.github.com"
