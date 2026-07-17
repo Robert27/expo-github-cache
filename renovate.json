@@ -1,0 +1,51 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:recommended",
+		":semanticCommits",
+		":semanticCommitTypeAll(chore)",
+		"helpers:pinGitHubActionDigests"
+	],
+	"timezone": "Europe/Berlin",
+	"labels": ["dependencies"],
+	"lockFileMaintenance": {
+		"enabled": true,
+		"schedule": ["before 6am on monday"]
+	},
+	"packageRules": [
+		{
+			"description": "Ignore example app (lockfiles and native projects are local-only)",
+			"matchFileNames": ["example/**"],
+			"enabled": false
+		},
+		{
+			"description": "Group GitHub Actions updates",
+			"matchManagers": ["github-actions"],
+			"groupName": "github actions",
+			"commitMessageTopic": "github actions",
+			"schedule": ["before 6am on monday"]
+		},
+		{
+			"description": "Group production dependency patch and minor updates",
+			"matchManagers": ["bun"],
+			"matchDepTypes": ["dependencies"],
+			"matchUpdateTypes": ["patch", "minor"],
+			"groupName": "dependencies",
+			"commitMessageTopic": "dependencies"
+		},
+		{
+			"description": "Group dev dependency patch and minor updates",
+			"matchManagers": ["bun"],
+			"matchDepTypes": ["devDependencies"],
+			"matchUpdateTypes": ["patch", "minor"],
+			"groupName": "dev dependencies",
+			"commitMessageTopic": "dev dependencies"
+		},
+		{
+			"description": "Keep major updates in separate pull requests",
+			"matchManagers": ["bun"],
+			"matchUpdateTypes": ["major"],
+			"groupName": null
+		}
+	]
+}
