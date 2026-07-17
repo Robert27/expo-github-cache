@@ -36,9 +36,10 @@ export GITHUB_TOKEN=your_github_token_here
 # or: gh auth login
 ```
 
-Now start the Expo project using the following command, as the build cache will be automatically used during the build process:
+Install dependencies, then start the Expo project. Native `ios/` and `android/` folders are generated locally on first run. The build cache will be automatically used during the build process:
 
 ```bash
+npm install
 npx expo run:ios
 npx expo run:android
 ```
