@@ -55,7 +55,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.4",
-		"@tsconfig/node20": "20.1.0",
+		"@tsconfig/node20": "20.1.9",
 		"@types/bun": "latest",
 		"@types/cli-progress": "^3.11.6",
 		"@types/fs-extra": "11.0.4"
