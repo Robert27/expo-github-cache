@@ -37,7 +37,7 @@
 		"prepublishOnly": "npm run build:prod"
 	},
 	"dependencies": {
-		"@babel/code-frame": "7.29.7",
+		"@babel/code-frame": "8.0.0",
 		"@expo/config": "^57.0.0",
 		"@expo/spawn-async": "^1.7.2",
 		"@octokit/rest": "^22.0.0",
