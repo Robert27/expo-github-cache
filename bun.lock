@@ -23,7 +23,7 @@
       },
       "devDependencies": {
         "@biomejs/biome": "2.5.4",
-        "@tsconfig/node18": "18.2.4",
+        "@tsconfig/node20": "20.1.0",
         "@types/bun": "latest",
         "@types/cli-progress": "^3.11.6",
         "@types/fs-extra": "11.0.4",
@@ -142,7 +142,7 @@
 
     "@pkgjs/parseargs": ["@pkgjs/parseargs@0.11.0", "", {}, "sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg=="],
 
-    "@tsconfig/node18": ["@tsconfig/node18@18.2.4", "", {}, "sha512-5xxU8vVs9/FNcvm3gE07fPbn9tl6tqGGWA9tSlwsUEkBxtRnTsNmwrV8gasZ9F/EobaSv9+nu8AxUKccw77JpQ=="],
+    "@tsconfig/node20": ["@tsconfig/node20@20.1.0", "", {}, "sha512-7Yz1xDv3sot8+NwiYA8wkx60qr3Tr+soJwlqVQSkiEqqgYoNmMmqSPiYs1vMmTxneB3igHAD11dGOR2+BShzTA=="],
 
     "@types/aws-lambda": ["@types/aws-lambda@8.10.149", "", {}, "sha512-NXSZIhfJjnXqJgtS7IwutqIF/SOy1Wz5Px4gUY1RWITp3AYTyuJS4xaXr/bIJY1v15XMzrJ5soGnPM+7uigZjA=="],
 
