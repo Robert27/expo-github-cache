@@ -24,6 +24,7 @@
 	},
 	"scripts": {
 		"lint": "biome check",
+		"lint:ci": "biome ci .",
 		"fmt": "biome check --fix",
 		"fmt:unsafe": "biome check --fix --unsafe",
 		"clean": "rm -rf build",
@@ -53,7 +54,7 @@
 		"uuidv7": "^1.0.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.0.4",
+		"@biomejs/biome": "2.5.4",
 		"@tsconfig/node18": "18.2.4",
 		"@types/bun": "latest",
 		"@types/cli-progress": "^3.11.6",
