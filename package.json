@@ -54,8 +54,8 @@
 		"uuidv7": "^1.0.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.4",
-		"@tsconfig/node24": "24.0.0",
+		"@biomejs/biome": "2.5.5",
+		"@tsconfig/node24": "24.0.4",
 		"@types/bun": "latest",
 		"@types/cli-progress": "^3.11.6",
 		"@types/fs-extra": "11.0.4"
